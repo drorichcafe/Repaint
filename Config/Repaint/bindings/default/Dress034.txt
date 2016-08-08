@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bindings>
+    <Binding>
+      <Material>ggxsss_latex</Material>
+      <Keywords>
+        <Keyword>Dress034*_shoe</Keyword>
+      </Keywords>
+    </Binding>
+    <Binding>
+      <Material>ggxsss_satin</Material>
+      <Keywords>
+        <Keyword>Dress034*_onep</Keyword>
+      </Keywords>
+    </Binding>
+  </Bindings>
+</Bindset>

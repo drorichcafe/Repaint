@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bindings>
+    <Binding>
+      <Material>ggxsss_hair</Material>
+      <Keywords>
+        <Keyword>hair</Keyword>
+      </Keywords>
+      <Ignores>
+        <Ignore>alpha</Ignore>
+        <Ignore>underhair</Ignore>
+        <Ignore>chair</Ignore>
+      </Ignores>
+    </Binding>
+  </Bindings>
+</Bindset>

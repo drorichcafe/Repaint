@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- バニーガール -->
+<Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bindings>
+    <Binding>
+      <Material>ggxsss_latex</Material>
+      <Keywords>
+        <Keyword>Dress017*_mizugi</Keyword>
+        <Keyword>Dress017*_shoe</Keyword>
+        <Keyword>Dress017*_glove</Keyword>
+      </Keywords>
+    </Binding>
+    <Binding>
+      <Material>ggxsss_stkg_15</Material>
+      <Keywords>
+        <Keyword>Dress017*_stkg</Keyword>
+      </Keywords>
+    </Binding>
+    <Binding>
+      <Material>ggxsss_satin</Material>
+      <Keywords>
+        <Keyword>Dress017*_accKubiwa</Keyword>
+        <Keyword>Dress017*_head</Keyword>
+      </Keywords>
+    </Binding>
+  </Bindings>
+</Bindset>
