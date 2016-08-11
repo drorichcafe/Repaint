@@ -1,16 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Bindings>
     <Binding>
-      <Material>ggxsss_hair</Material>
+      <Material>kayhair_hair</Material>
       <Keywords>
         <Keyword>hair</Keyword>
       </Keywords>
       <Ignores>
+        <Ignore>hairpony</Ignore>
         <Ignore>alpha</Ignore>
         <Ignore>underhair</Ignore>
         <Ignore>chair</Ignore>
       </Ignores>
+    </Binding>
+    <Binding>
+      <Material>kayhair_pony</Material>
+      <Keywords>
+        <Keyword>hairpony</Keyword>
+      </Keywords>
     </Binding>
   </Bindings>
 </Bindset>

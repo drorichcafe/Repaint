@@ -6,7 +6,7 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.Repaint
 {
-	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.0")]
+	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.1")]
 	public class Repaint : PluginBase
 	{
 		public class Binding
@@ -48,7 +48,16 @@ namespace CM3D2.Repaint
 		{
 			public KeyCode KeyReload = KeyCode.R;
 			public KeyCode KeyDump = KeyCode.D;
+			public int ReflectionMapSize = 512;
+			[System.Xml.Serialization.XmlArrayItem("Property", typeof(Matparam.Property))]
+			public List<Matparam.Property> GlobalProperties = new List<Matparam.Property>();
 			public string Flavor = string.Empty;
+		}
+
+		public class BindingCache
+		{
+			public Matparam param = null;
+			public bool trans = false;
 		}
 
 		private static Config m_config = new Config();
@@ -57,6 +66,9 @@ namespace CM3D2.Repaint
 		private static Dictionary<string, Matparam> m_materials = new Dictionary<string, Matparam>();
 		private static List<Binding> m_bindings = new List<Binding>();
 		private static RenderTexture m_cubemap = null;
+		private static int m_updateStep = 0;
+		private static Dictionary<string, BindingCache> m_cache = new Dictionary<string, BindingCache>();
+		private static bool m_reloaded = false;
 
 		public void Awake()
 		{
@@ -66,7 +78,7 @@ namespace CM3D2.Repaint
 		public void OnLevelWasLoaded(int lv)
 		{
 			m_folder = System.IO.Path.Combine(this.DataPath, "Repaint");
-			m_config = loadXml<Config>(System.IO.Path.Combine(m_folder, "Repaint.xml"));
+			reload();
 		}
 
 		public void LateUpdate()
@@ -78,7 +90,7 @@ namespace CM3D2.Repaint
 
 			if (Input.GetKeyDown(m_config.KeyReload))
 			{
-				updateMaterials();
+				reload();
 			}
 
 			if (Input.GetKeyDown(m_config.KeyDump))
@@ -93,72 +105,106 @@ namespace CM3D2.Repaint
 				}
 			}
 
-			updateCubemap(1 << (Time.frameCount % 6));
+			if (!m_reloaded) return;
+
+			int materialCount = updateMaterials();
+
+			m_updateStep++;
+
+			if (m_updateStep > (materialCount + 6))
+			{
+				m_updateStep = 0;
+			}
+			else if (m_updateStep > materialCount)
+			{
+				int i = (m_updateStep - materialCount) -1;
+				updateCubemap(1 << i);
+			}
 		}
 
-		private void updateMaterials()
+		private void reload()
 		{
+			m_reloaded = false;
+
 			var configFilePath = System.IO.Path.Combine(m_folder, "Repaint.xml");
 			m_config = loadXml<Config>(configFilePath);
 			loadShaders();
 			loadMaterials();
 			loadBindings();
-	
+			m_cache.Clear();
+			UnityEngine.Object.DestroyImmediate(m_cubemap);
+			m_cubemap = null;
+			System.GC.Collect();
+
+			foreach (var p in m_config.GlobalProperties)
+			{
+				switch (p.Type)
+				{
+					case Matparam.Property.PropertyType.Float:
+						Shader.SetGlobalFloat(p.Name, p.Float);
+						break;
+					case Matparam.Property.PropertyType.Color:
+						Shader.SetGlobalColor(p.Name, p.Color);
+						break;
+					default:
+						break;
+				}
+			}
+
+			updateCubemap(63);
+			Shader.SetGlobalTexture("_Reflection", m_cubemap);
+
+			m_reloaded = true;
+		}
+
+		private int updateMaterials()
+		{
+			int count = 0;
+
 			foreach (var rd in FindObjectsOfType<Renderer>())
 			{
-				var changed = false;
-				var materials = rd.materials;
-
-				for (int j = 0; j < materials.Length; ++j)
+				for (int j = 0; j < rd.sharedMaterials.Length; ++j)
 				{
 					var trans = false;
-					var param = getMatparam(materials[j].name, ref trans);
+					var param = getMatparam(rd.sharedMaterials[j].name, ref trans);
 					if (param == null) continue;
+
+					count++;
+					if (count != m_updateStep) continue;
 
 					var shaderName = param.Shader;
 					if (trans) shaderName += "_Trans";
-					
+
 					if (!m_shaders.ContainsKey(shaderName))
 					{
 						Console.WriteLine("Shader [" + shaderName + "] not found");
 						continue;
 					}
 
-					var mat = new Material(m_shaders[shaderName]);
-					mat.CopyPropertiesFromMaterial(materials[j]);
-					var name = materials[j].name;
-					var instance = name.IndexOf(" (Instance)");
-					if (instance >= 0)
+					var shader = m_shaders[shaderName];
+					if (shader != rd.sharedMaterials[j].shader)
 					{
-						name = name.Substring(0, instance);
+						rd.sharedMaterials[j].shader = shader;
 					}
-					mat.name = name;
 
 					foreach (var p in param.Properties)
 					{
 						switch (p.Type)
 						{
 							case Matparam.Property.PropertyType.Float:
-								mat.SetFloat(p.Name, p.Float);
+								rd.sharedMaterials[j].SetFloat(p.Name, p.Float);
 								break;
 							case Matparam.Property.PropertyType.Color:
-								mat.SetColor(p.Name, p.Color);
+								rd.sharedMaterials[j].SetColor(p.Name, p.Color);
 								break;
 							default:
 								break;
 						}
 					}
-
-					materials[j] = mat;
-					Console.WriteLine(mat.name);
-					changed = true;
-				}
-
-				if (changed)
-				{
-					rd.materials = materials;
 				}
 			}
+
+			return count;
 		}
 
 		private void updateCubemap(int flag)
@@ -186,28 +232,37 @@ namespace CM3D2.Repaint
 
 			if (m_cubemap == null)
 			{
-				//m_cubemap = new Cubemap(512, TextureFormat.ARGB32, true);
-				m_cubemap = new RenderTexture(512, 512, 16);
+				var size = m_config.ReflectionMapSize;
+				m_cubemap = new RenderTexture(size, size, 16);
+				m_cubemap.isPowerOfTwo = true;
 				m_cubemap.isCubemap = true;
-				m_cubemap.generateMips = true;
+				m_cubemap.generateMips = false;
 				m_cubemap.useMipMap = true;
 				m_cubemap.hideFlags = HideFlags.HideAndDontSave;
 			}
 
-			var cam = GameObject.Find("CameraMain");
-			var pos = cam.transform.position;
-			var rot = cam.transform.rotation;
-			cam.transform.position = new Vector3(0.0f, 1.5f, 0.0f);
-			cam.transform.rotation = Quaternion.identity;
-			cam.GetComponent<Camera>().RenderToCubemap(m_cubemap, flag);
-			cam.transform.position = pos;
-			cam.transform.rotation = rot;
+			var camgo = GameObject.Find("CameraMain");
+			var pos = camgo.transform.position;
+			var rot = camgo.transform.rotation;
+			camgo.transform.position = new Vector3(0.0f, 1.5f, 0.0f);
+			camgo.transform.rotation = Quaternion.identity;
+			var cam = camgo.GetComponent<Camera>();
+			var nclip = cam.nearClipPlane;
+			var fclip = cam.farClipPlane;
+			var enabled = cam.enabled;
+			cam.nearClipPlane = 0.001f;
+			cam.farClipPlane = 100.0f;
+			cam.enabled = false;
+			cam.RenderToCubemap(m_cubemap, flag);
+			cam.enabled = enabled;
+			cam.farClipPlane = fclip;
+			cam.nearClipPlane = nclip;
+			camgo.transform.position = pos;
+			camgo.transform.rotation = rot;
 
 			GameMain.Instance.MainLight.SetIntensity(lit_int);
 			GameMain.Instance.MainLight.SetColor(lit_col);
 			foreach (var kv in rds) kv.Key.enabled = kv.Value;
-
-			Shader.SetGlobalTexture("_Reflection", m_cubemap);
 		}
 
 		private System.Text.RegularExpressions.Regex makeWildCardRegex(string text)
@@ -220,13 +275,28 @@ namespace CM3D2.Repaint
 	
 		private Matparam getMatparam(string name, ref bool trans)
 		{
+			if (m_cache.ContainsKey(name))
+			{
+				var value = m_cache[name];
+				trans = value.trans;
+				return value.param;
+			}
+
 			var name_lowered = name.ToLower();
 			foreach (var b in m_bindings)
 			{
+				bool ignore = false;
+
 				foreach (var i in b.Ignores)
 				{
-					if (name_lowered.Contains(i.ToLower())) return null;
+					if (name_lowered.Contains(i.ToLower()))
+					{
+						ignore = true;
+						break;
+					}
 				}
+
+				if (ignore) continue;
 
 				foreach (var k in b.Keywords)
 				{
@@ -234,8 +304,12 @@ namespace CM3D2.Repaint
 					{
 						if (m_materials.ContainsKey(b.Material))
 						{
-							trans = b.Transparent;
-							return m_materials[b.Material];
+							var cache = new BindingCache();
+							cache.trans = b.Transparent;
+							cache.param = m_materials[b.Material];
+							m_cache[name] = cache;
+							trans = cache.trans;
+							return cache.param;
 						}
 						else
 						{
@@ -246,6 +320,11 @@ namespace CM3D2.Repaint
 				}
 			}
 
+			var cacheNotFound = new BindingCache();
+			cacheNotFound.trans = false;
+			cacheNotFound.param = null;
+			m_cache[name] = cacheNotFound;
+			trans = cacheNotFound.trans;
 			return null;
 		}
 

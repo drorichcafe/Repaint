@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Bindings>
     <Binding>
-      <Material>ggxsss_gold</Material>
+      <Material>ggxsss_skin</Material>
       <Transparent>false</Transparent>
       <Keywords>
         <Keyword>skin</Keyword>
@@ -15,7 +15,7 @@
       </Ignores>
     </Binding>
     <Binding>
-      <Material>ggxsss_gold</Material>
+      <Material>ggxsss_skin</Material>
       <Transparent>true</Transparent>
       <Keywords>
         <Keyword>nip</Keyword>
