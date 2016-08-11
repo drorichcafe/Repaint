@@ -6,7 +6,7 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.Repaint
 {
-	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.1")]
+	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.2")]
 	public class Repaint : PluginBase
 	{
 		public class Binding
@@ -236,7 +236,7 @@ namespace CM3D2.Repaint
 				m_cubemap = new RenderTexture(size, size, 16);
 				m_cubemap.isPowerOfTwo = true;
 				m_cubemap.isCubemap = true;
-				m_cubemap.generateMips = false;
+				m_cubemap.generateMips = true;
 				m_cubemap.useMipMap = true;
 				m_cubemap.hideFlags = HideFlags.HideAndDontSave;
 			}
