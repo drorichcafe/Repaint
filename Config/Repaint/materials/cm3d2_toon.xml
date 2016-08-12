@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Matparam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Properties>
+    <Property><Name>_ToonRamp</Name><Type>Texture</Type><Texture>sample_toon00.png</Texture></Property>
+    <Property><Name>_ShadowTex</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_ShadowRateToon</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+  </Properties>
+</Matparam>

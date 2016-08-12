@@ -6,7 +6,7 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.Repaint
 {
-	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.4")]
+	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.5")]
 	public class Repaint : PluginBase
 	{
 		public class Binding
@@ -185,19 +185,22 @@ namespace CM3D2.Repaint
 					count++;
 					if (count != m_updateStep) continue;
 
-					var shaderName = param.Shader;
-					if (trans) shaderName += "_Trans";
-
-					if (!m_shaders.ContainsKey(shaderName))
+					if (param.Shader.Length > 0)
 					{
-						Console.WriteLine("Shader [" + shaderName + "] not found");
-						continue;
-					}
+						var shaderName = param.Shader;
+						if (trans) shaderName += "_Trans";
 
-					var shader = m_shaders[shaderName];
-					if (shader != rd.sharedMaterials[j].shader)
-					{
-						rd.sharedMaterials[j].shader = shader;
+						if (!m_shaders.ContainsKey(shaderName))
+						{
+							Console.WriteLine("Shader [" + shaderName + "] not found");
+							continue;
+						}
+
+						var shader = m_shaders[shaderName];
+						if (shader != rd.sharedMaterials[j].shader)
+						{
+							rd.sharedMaterials[j].shader = shader;
+						}
 					}
 
 					foreach (var p in param.Properties)
