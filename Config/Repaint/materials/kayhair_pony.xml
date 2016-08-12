@@ -11,6 +11,6 @@
     <Property><Name>_RimShift</Name><Type>Float</Type><Float>0.25</Float></Property>
     <Property><Name>_TranslucentPower</Name><Type>Float</Type><Float>5</Float></Property>
     <Property><Name>_TranslucentColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b></Color></Property>
-    <Property><Name>_TranslucentAlbedo</Name><Type>Float</Type><Float>1</Float></Property>       
+    <Property><Name>_TranslucentTilt</Name><Type>Float</Type><Float>1</Float></Property>       
   </Properties>
 </Matparam>

@@ -6,7 +6,7 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.Repaint
 {
-	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.3")]
+	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.4")]
 	public class Repaint : PluginBase
 	{
 		public class Binding
@@ -32,12 +32,16 @@ namespace CM3D2.Repaint
 				{
 					Float,
 					Color,
+					Texture,
+					Vector,
 				}
 
 				public string Name = string.Empty;
 				public PropertyType Type = PropertyType.Float;
 				public float Float = 0.0f;
 				public Color Color = Color.white;
+				public string Texture = string.Empty;
+				public Vector4 Vector = Vector4.zero;
 			}
 
 			public string Shader = string.Empty;
@@ -64,6 +68,7 @@ namespace CM3D2.Repaint
 		private static string m_folder = string.Empty;
 		private static Dictionary<string, Shader> m_shaders = new Dictionary<string, Shader>();
 		private static Dictionary<string, Matparam> m_materials = new Dictionary<string, Matparam>();
+		private static Dictionary<string, Texture2D> m_textures = new Dictionary<string, Texture2D>();
 		private static List<Binding> m_bindings = new List<Binding>();
 		private static RenderTexture m_cubemap = null;
 		private static int m_updateStep = 0;
@@ -132,8 +137,10 @@ namespace CM3D2.Repaint
 			loadMaterials();
 			loadBindings();
 			m_cache.Clear();
+			m_textures.Clear();
 			UnityEngine.Object.DestroyImmediate(m_cubemap);
 			m_cubemap = null;
+			Resources.UnloadUnusedAssets();
 			System.GC.Collect();
 
 			foreach (var p in m_config.GlobalProperties)
@@ -145,6 +152,12 @@ namespace CM3D2.Repaint
 						break;
 					case Matparam.Property.PropertyType.Color:
 						Shader.SetGlobalColor(p.Name, p.Color);
+						break;
+					case Matparam.Property.PropertyType.Texture:
+						Shader.SetGlobalTexture(p.Name, loadTexture(p.Texture));
+						break;
+					case Matparam.Property.PropertyType.Vector:
+						Shader.SetGlobalVector(p.Name, p.Vector);
 						break;
 					default:
 						break;
@@ -196,6 +209,12 @@ namespace CM3D2.Repaint
 								break;
 							case Matparam.Property.PropertyType.Color:
 								rd.sharedMaterials[j].SetColor(p.Name, p.Color);
+								break;
+							case Matparam.Property.PropertyType.Texture:
+								rd.sharedMaterials[j].SetTexture(p.Name, loadTexture(p.Texture));
+								break;
+							case Matparam.Property.PropertyType.Vector:
+								rd.sharedMaterials[j].SetVector(p.Name, p.Vector);
 								break;
 							default:
 								break;
@@ -363,6 +382,21 @@ namespace CM3D2.Repaint
 					m_bindings.AddRange(loadXml<Bindset>(f).Bindings);
 				}
 			}
+		}
+
+		private Texture2D loadTexture(string name)
+		{
+			var dir = System.IO.Path.Combine(m_folder, "textures");
+			var path = System.IO.Path.Combine(dir, name);
+
+			if (!m_textures.ContainsKey(path))
+			{
+				var tex = new Texture2D(2, 2);
+				tex.LoadImage(System.IO.File.ReadAllBytes(path));
+				m_textures[path] = tex;
+			}
+
+			return m_textures[path];
 		}
 
 		private T loadXml<T>(string path)

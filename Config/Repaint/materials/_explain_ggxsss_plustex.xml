@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Matparam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--
+    GGXSSS_PlusTexはパラメータ調整にテクスチャを使用するGGXSSSシェーダーです
+-->
+  <Shader>GGXSSS_PlusTex</Shader>
+  <Properties>
+<!--
+    ここのパラメータについての説明は_explain_ggxss.xmlを参照してください
+-->
+    <Property><Name>_Color</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b><a>1</a></Color></Property>
+    <Property><Name>_Roughness</Name><Type>Float</Type><Float>1.0</Float></Property>
+    <Property><Name>_F0</Name><Type>Float</Type><Float>0.00125</Float></Property>
+    <Property><Name>_RimColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b></Color></Property>
+    <Property><Name>_RimPower</Name><Type>Float</Type><Float>1.0</Float></Property>
+    <Property><Name>_RimShift</Name><Type>Float</Type><Float>-1.0</Float></Property>
+    <Property><Name>_TranslucentColor</Name><Type>Color</Type><Color><r>0</r><g>0</g><b>0</b></Color></Property>
+    <Property><Name>_TranslucentPower</Name><Type>Float</Type><Float>1.0</Float></Property>
+    <Property><Name>_TranslucentTilt</Name><Type>Float</Type><Float>0</Float></Property>
+    <Property><Name>_SpecularColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1.0</b></Color></Property>
+    <Property><Name>_Metalness</Name><Type>Float</Type><Float>0</Float></Property>
+
+<!-- UVサイズ確認用
+    <Property><Name>_MainTex</Name><Type>Texture</Type><Texture>sample_cb.png</Texture></Property>
+-->
+<!--
+    ???_STは各テクスチャのUVスケールとオフセットをあらわしています（x,yがスケール、z,wがオフセット）
+    BumpMap ... ３チャンネル。法線方向を変化させるテクスチャ
+    BumpScale ... BumpMapの強さ
+    SpecularMap ... ３チャンネル。SpecularColorに乗算するマスク。金属の反射色の塗り分けなど
+    RoughnessMap ... １チャンネル。Roughnessに乗算するマスク。ツルツルとザラザラの塗り分け
+    RimMap ... ３チャンネル。RimColorに乗算するマスク。表面下散乱の回折塗り分け
+    TranslucentMap ... ３チャンネル。TranslucentColorに乗算するマスク。表面下散乱の透過塗り分け
+    FresnelMap ... １チャンネル。F0に乗算するマスク。フレネル反射が異なる箇所の塗り分け
+    MetalnessMap ... １チャンネル。Metalnessに乗算するマスク。金属とそうでない箇所の塗り分け
+    AOMap ... １チャンネル。最終的な計算結果に乗算されるマスク。光の侵入しない箇所（穴とか溝とか）の塗り分け
+-->
+    <Property><Name>_BumpMap</Name><Type>Texture</Type><Texture>sample_n00.png</Texture></Property>
+    <Property><Name>_BumpMap_ST</Name><Type>Vector</Type><Vector><x>8</x><y>8</y><z>0</z><w>0</w></Vector></Property>
+    <Property><Name>_BumpScale</Name><Type>Float</Type><Float>0.15</Float></Property>
+    <Property><Name>_SpecularMap</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_SpecularMap_ST</Name><Type>Vector</Type><Vector><x>1</x><y>1</y><z>0</z><w>0</w></Vector></Property>
+    <Property><Name>_RoughnessMap</Name><Type>Texture</Type><Texture>sample_r00.png</Texture></Property>
+    <Property><Name>_RoughnessMap_ST</Name><Type>Vector</Type><Vector><x>1</x><y>1</y><z>0</z><w>0</w></Vector></Property>
+    <Property><Name>_RimMap</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_RimMap_ST</Name><Type>Vector</Type><Vector><x>1</x><y>1</y><z>0</z><w>0</w></Vector></Property>
+    <Property><Name>_TranslucentMap</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_TranslucentMap_ST</Name><Type>Vector</Type><Vector><x>1</x><y>1</y><z>0</z><w>0</w></Vector></Property>
+    <Property><Name>_FresnelMap</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_FresnelMap_ST</Name><Type>Vector</Type><Vector><x>1</x><y>1</y><z>0</z><w>0</w></Vector></Property>
+    <Property><Name>_MetalnessMap</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_MetalnessMap_ST</Name><Type>Vector</Type><Vector><x>1</x><y>1</y><z>0</z><w>0</w></Vector></Property>
+    <Property><Name>_AOMap</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_AOMap_ST</Name><Type>Vector</Type><Vector><x>1</x><y>1</y><z>0</z><w>0</w></Vector></Property>
+  </Properties>
+</Matparam>

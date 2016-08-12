@@ -3,7 +3,6 @@
   <KeyReload>R</KeyReload>
   <KeyDump>D</KeyDump>
   <ReflectionMapSize>512</ReflectionMapSize>
-  <!-- シェーダー全体に影響を与える設定 -->
   <GlobalProperties>
     <!-- ランバート　　　：Scale=1.0 Offset=0.0
          ハーフランバート：Scale=0.5 Offset=0.5 -->
@@ -11,7 +10,4 @@
     <Property><Name>_LambertOffset</Name><Type>Float</Type><Float>0.25</Float></Property>
   </GlobalProperties>
   <Flavor>default</Flavor>
-<!-- 金箔趣味に目覚めるスイッチはこちら
-  <Flavor>gold</Flavor>
--->
 </Config>

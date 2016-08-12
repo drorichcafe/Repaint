@@ -1,7 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Matparam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--
+    KAYHAIRは光の反射する向きが特殊なマテリアルを表現するためのシェーダーです
+    通常のライティングモデルでは法線(Normal)を使用して明るさが計算されますが
+    このシェーダーではKajiyaKayと呼ばれるTangent(法線に垂直なUV空間のベクトル)を使用する計算モデルが使用されています
+-->
   <Shader>KAYHAIR</Shader>
   <Properties>
+<!--
+    Color ... アルベド(表面色)に乗算する色
+    SpecularColor ... 鏡面反射色
+    SpecularPower ... 鏡面反射の範囲を決める係数(0より大きい～) 値が小さいほど範囲が広くなる
+    SpecularShift ... 鏡面反射の範囲を決める係数(-6.28～6.28程度) 値が大きいほど反射方向が法線に近づく
+    RimColor ... 回折光の色
+    RimPower ... 回折光の範囲を決める係数(0より大きい～) 値が小さいほど範囲が広くなる
+    RimShift ... 回折光の範囲を決める係数(-1～1) 値が大きいほど範囲が広くなる
+-->
     <Property><Name>_Color</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b><a>1</a></Color></Property>
     <Property><Name>_SpecularColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b></Color></Property>
     <Property><Name>_SpecularPower</Name><Type>Float</Type><Float>75.0</Float></Property>
