@@ -6,7 +6,7 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.Repaint
 {
-	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.2")]
+	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.3")]
 	public class Repaint : PluginBase
 	{
 		public class Binding
@@ -241,24 +241,15 @@ namespace CM3D2.Repaint
 				m_cubemap.hideFlags = HideFlags.HideAndDontSave;
 			}
 
-			var camgo = GameObject.Find("CameraMain");
-			var pos = camgo.transform.position;
-			var rot = camgo.transform.rotation;
+			var camgo = new GameObject("CubemapCamera");
 			camgo.transform.position = new Vector3(0.0f, 1.5f, 0.0f);
 			camgo.transform.rotation = Quaternion.identity;
-			var cam = camgo.GetComponent<Camera>();
-			var nclip = cam.nearClipPlane;
-			var fclip = cam.farClipPlane;
-			var enabled = cam.enabled;
+			var cam = camgo.AddComponent<Camera>();
 			cam.nearClipPlane = 0.001f;
 			cam.farClipPlane = 100.0f;
 			cam.enabled = false;
 			cam.RenderToCubemap(m_cubemap, flag);
-			cam.enabled = enabled;
-			cam.farClipPlane = fclip;
-			cam.nearClipPlane = nclip;
-			camgo.transform.position = pos;
-			camgo.transform.rotation = rot;
+			DestroyImmediate(camgo);
 
 			GameMain.Instance.MainLight.SetIntensity(lit_int);
 			GameMain.Instance.MainLight.SetColor(lit_col);
