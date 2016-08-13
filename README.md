@@ -29,7 +29,7 @@ Flavorを作成して設定環境を用意します
 
 1. *Config/Repaint/bindings* に *MyFlavor* フォルダを作成します
 1. *Config/Repaint/Repaint.xml* の `<Flavor>default</Flavor>` と書かれている箇所を `<Flavor>MyFlavor</Flavor>` に変更して上書き保存します
-1. 作成した`MyFlavor`フォルダ内に下記内容を記述したテキストファイルを *hair.xml* というファイル名で保存します
+1. 作成した *MyFlavor* フォルダ内に下記内容を記述したテキストファイルを *hair.xml* というファイル名で保存します
 1. ゲームを起動してキャラクターの見た目が確認できるシーンに移動します
 1. 髪の毛のマテリアルが変化している事を確認してください
 
@@ -84,11 +84,87 @@ hair.xml
 </Bindset>
 ```
 
-さて、このまま**Rキーを押してリロードしても変更したマテリアルを元に戻すことはできません
-**。検索条件が変更されてしまうと、変更したマテリアルがわからなくなってしまうためです。こういった場合は、キャラクターやシーンを再読み込みすれば最新の状態に反映されます。
+さて、Reptainプラグインは変更したマテリアルを覚えていないため、このまま **Rキーを押してリロードしても変更したマテリアルを元に戻すことはできません** 。こういった場合は、キャラクターやシーンを再読み込みして一度オリジナルのデータをロードしなおす必要があります。
 
 ### IV. Matparamの追加
-Comming soon
+
+次に、Matparamを追加する方法について説明します。執務室に戻ってください。ちょっと椅子がボロくないですか？私はもっとしっかりしてそうな椅子で仕事がしたいので、この椅子のマテリアルを作成してみることにします。
+
+まずは *hair.xml* と同じ要領で、bindingデータを作成しておきましょう。*MyFlavor* フォルダ内に下記内容を記述したテキストファイルを *office.xml* というファイル名で保存します。
+
+office.xml
+```
+<?xml version="1.0" encoding="utf-8"?>
+<Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bindings>
+    <Binding>
+      <Material>mychair</Material>
+      <Transparent>false</Transparent>
+      <Keywords>
+        <Keyword>shitumurm_chair</Keyword><!-- Dキーでシーン内の椅子の名前を調べる -->
+      </Keywords>
+    </Binding>
+  </Bindings>
+</Bindset>
+```
+
+*mychair* というMatparamデータはmaterialsフォルダに存在しないので、このままではマテリアルは変更されません。早速下記の手順で *mychair* のデータを作成してみましょう。
+
+1. materialsフォルダに移動
+1. *_explain_ggxsss.xml* ファイルを同じフォルダにコピー＆ペーストする
+1. コピーしたファイルの名前を *mychair.xml* に変更する
+
+これでMatparamデータが準備できました。変化をわかりやすくするために、 *mychair.xml* を開いて一番下に書いてある `<Property><Name>_Metalness</Name><Type>Float</Type><Float>0</Float></Property>` の **0** の部分を **1** に書き換えて上書き保存しておきましょう。それでは、Rキーを押して見た目が変更されるのを確認してください。
+
+Matparamは無事に追加できましたが、この椅子では仕事に集中できなさそうです。各項目の説明を見ながら、パラメータを調整して自分好みの見た目にしてみましょう。
+
+mychair.xml パラメータ調整の例（見やすくするためにコメントは削除しています）
+```
+<?xml version="1.0" encoding="utf-8"?>
+<Matparam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Shader>GGXSSS</Shader>
+  <Properties>
+    <Property><Name>_Color</Name><Type>Color</Type><Color><r>0.25</r><g>0.75</g><b>0.75</b><a>1</a></Color></Property>
+    <Property><Name>_Roughness</Name><Type>Float</Type><Float>0.4</Float></Property>
+    <Property><Name>_F0</Name><Type>Float</Type><Float>0.02</Float></Property>
+    <Property><Name>_RimColor</Name><Type>Color</Type><Color><r>0.5</r><g>0.5</g><b>0.5</b></Color></Property>
+    <Property><Name>_RimPower</Name><Type>Float</Type><Float>5</Float></Property>
+    <Property><Name>_RimShift</Name><Type>Float</Type><Float>0</Float></Property>
+    <Property><Name>_TranslucentColor</Name><Type>Color</Type><Color><r>0</r><g>0</g><b>0</b></Color></Property>
+    <Property><Name>_TranslucentPower</Name><Type>Float</Type><Float>1</Float></Property>
+    <Property><Name>_TranslucentTilt</Name><Type>Float</Type><Float>0</Float></Property>
+    <Property><Name>_SpecularColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1.0</b></Color></Property>
+    <Property><Name>_Metalness</Name><Type>Float</Type><Float>0.1</Float></Property>
+  </Properties>
+</Matparam>
+```
+
+机や棚の見た目も変えたいという人は *office.xml* にbindingを追加して、椅子と同じ要領でMatparamを作成してみてください。
+
+office.xml
+```
+<?xml version="1.0" encoding="utf-8"?>
+<Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bindings>
+    <!-- 椅子 -->
+    <Binding>
+      <Material>mychair</Material>
+      <Transparent>false</Transparent>
+      <Keywords>
+        <Keyword>shitumurm_chair</Keyword>
+      </Keywords>
+    </Binding>
+    <!-- 机と棚は同じマテリアルらしい -->
+    <Binding>
+      <Material>myfurniture</Material>
+      <Transparent>false</Transparent>
+      <Keywords>
+        <Keyword>shitumurm_furniture</Keyword>
+      </Keywords>
+    </Binding>
+  </Bindings>
+</Bindset>
+```
 
 ### V. シェーダーの追加
 Comming soon
