@@ -15,6 +15,7 @@
     <Property><Name>_Metalness</Name><Type>Float</Type><Float>0.1</Float></Property>
 
     <Property><Name>_BumpMap</Name><Type>Texture</Type><Texture>sample_n01.png</Texture></Property>
+    <Property><Name>_BumpMap_ST</Name><Type>Vector</Type><Vector><x>12</x><y>12</y><z>0</z><w>0</w></Vector></Property>
     <Property><Name>_BumpScale</Name><Type>Float</Type><Float>0.125</Float></Property>
     <Property><Name>_SpecularMap</Name><Type>Texture</Type><Texture>sample_s00.png</Texture></Property>
     <Property><Name>_SpecularMap_ST</Name><Type>Vector</Type><Vector><x>2</x><y>2</y><z>0</z><w>0</w></Vector></Property>
