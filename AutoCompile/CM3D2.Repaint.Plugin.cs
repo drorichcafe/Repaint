@@ -6,7 +6,7 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.Repaint
 {
-	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.5")]
+	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.6")]
 	public class Repaint : PluginBase
 	{
 		public class Binding
@@ -52,6 +52,7 @@ namespace CM3D2.Repaint
 		{
 			public KeyCode KeyReload = KeyCode.R;
 			public KeyCode KeyDump = KeyCode.D;
+			public bool FullyUpdate = false;
 			public int ReflectionMapSize = 512;
 			[System.Xml.Serialization.XmlArrayItem("Property", typeof(Matparam.Property))]
 			public List<Matparam.Property> GlobalProperties = new List<Matparam.Property>();
@@ -112,19 +113,22 @@ namespace CM3D2.Repaint
 
 			if (!m_reloaded) return;
 
-			int materialCount = updateMaterials();
+			do {
+				int materialCount = updateMaterials();
 
-			m_updateStep++;
+				m_updateStep++;
 
-			if (m_updateStep > (materialCount + 6))
-			{
-				m_updateStep = 0;
-			}
-			else if (m_updateStep > materialCount)
-			{
-				int i = (m_updateStep - materialCount) -1;
-				updateCubemap(1 << i);
-			}
+				if (m_updateStep > (materialCount + 6))
+				{
+					m_updateStep = 0;
+					break;
+				}
+				else if (m_updateStep > materialCount)
+				{
+					int i = (m_updateStep - materialCount) - 1;
+					updateCubemap(1 << i);
+				}
+			} while (m_config.FullyUpdate);
 		}
 
 		private void reload()
