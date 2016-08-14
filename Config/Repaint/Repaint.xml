@@ -2,7 +2,7 @@
 <Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <KeyReload>R</KeyReload>
   <KeyDump>D</KeyDump>
-  <FullyUpdate>false</FullyUpdate><!-- スペック高いPCで反映速度早くしたい人はtrue -->
+  <AutoUpdate>true</AutoUpdate>
   <ReflectionMapSize>512</ReflectionMapSize>
   <GlobalProperties>
     <!-- ランバート　　　：Scale=1.0 Offset=0.0
