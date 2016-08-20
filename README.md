@@ -21,6 +21,7 @@
 | GGXSSS         | リアルなスペキュラ反射と簡易的な表面下散乱             | Config/Repaint/materials/_explain_ggxsss.xml         |
 | GGXSSS_PlusTex | GGXSSSのパラメータ調整にテクスチャを使用するバージョン | Config/Repaint/materials/_explain_ggxsss_plustex.xml |
 | KAYHAIR        | Kajiya-Kayモデルを使用したシェーダー                   | Config/Repaint/materials/_explain_kayhair.xml        |
+| DISTORT        | ステルスメイ彩                                         | Config/Repaint/materials/_explain_distort.xml        |
 
 ## チュートリアル
 ### I. Flavorの追加
@@ -167,4 +168,10 @@ office.xml
 ```
 
 ### V. シェーダーの追加
-Comming soon
+
+1. CM3D2と同じバージョンのUnityをインストールします (2016/08/20現時点では4.7.1)
+1. UnityをDirectX11モードで起動します
+1. Unityでシェーダーを作成します
+1. シェーダーの inspector で show current ボタンを押してコンパイル済みのコードを表示します
+1. コンパイル済みのコードを適当なテキストにペーストして shaders 以下に.shaderファイルとして保存します
+1. Matparamファイルのshaderタグを追加したシェーダーのファイル名にするとシェーダーが適用されます
