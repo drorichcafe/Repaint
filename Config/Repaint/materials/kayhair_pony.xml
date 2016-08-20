@@ -2,7 +2,6 @@
 <Matparam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Shader>KAYHAIR</Shader>
   <Properties>
-    <Property><Name>_Color</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b><a>1</a></Color></Property>
     <Property><Name>_SpecularColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b></Color></Property>
     <Property><Name>_SpecularPower</Name><Type>Float</Type><Float>75.0</Float></Property>
     <Property><Name>_SpecularShift</Name><Type>Float</Type><Float>-0.5</Float></Property>
@@ -10,7 +9,7 @@
     <Property><Name>_RimPower</Name><Type>Float</Type><Float>50.0</Float></Property>
     <Property><Name>_RimShift</Name><Type>Float</Type><Float>0.25</Float></Property>
     <Property><Name>_TranslucentPower</Name><Type>Float</Type><Float>5</Float></Property>
-    <Property><Name>_TranslucentColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b></Color></Property>
+    <Property><Name>_TranslucentColor</Name><Type>Color</Type><Color><r>0.5</r><g>0.5</g><b>0.5</b></Color></Property>
     <Property><Name>_TranslucentTilt</Name><Type>Float</Type><Float>1</Float></Property>       
   </Properties>
 </Matparam>

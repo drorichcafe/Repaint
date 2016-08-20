@@ -22,6 +22,7 @@
 | GGXSSS_PlusTex | GGXSSSのパラメータ調整にテクスチャを使用するバージョン | Config/Repaint/materials/_explain_ggxsss_plustex.xml |
 | KAYHAIR        | Kajiya-Kayモデルを使用したシェーダー                   | Config/Repaint/materials/_explain_kayhair.xml        |
 | DISTORT        | ステルスメイ彩                                         | Config/Repaint/materials/_explain_distort.xml        |
+| SLIME          | GGXSSSに屈折透過機能を付加したシェーダー               | Config/Repaint/materials/_explain_slime.xml          |
 
 ## チュートリアル
 ### I. Flavorの追加

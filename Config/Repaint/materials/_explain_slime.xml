@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Matparam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--
+    GGXSSSに屈折透過機能を付加したシェーダーです
+-->
+  <Shader>SLIME</Shader>
+  <Properties>
+<!--
+    ここのパラメータについての説明は_explain_ggxss.xmlを参照してください
+-->
+    <Property><Name>_Color</Name><Type>Color</Type><Color><r>0</r><g>1</g><b>1</b><a>0.5</a></Color></Property>
+    <Property><Name>_Roughness</Name><Type>Float</Type><Float>0.25</Float></Property>
+    <Property><Name>_F0</Name><Type>Float</Type><Float>0.1</Float></Property>
+    <Property><Name>_RimColor</Name><Type>Color</Type><Color><r>0.25</r><g>0.25</g><b>0.25</b></Color></Property>
+    <Property><Name>_RimPower</Name><Type>Float</Type><Float>2.0</Float></Property>
+    <Property><Name>_RimShift</Name><Type>Float</Type><Float>0.0</Float></Property>
+    <Property><Name>_TranslucentPower</Name><Type>Float</Type><Float>2.0</Float></Property>
+    <Property><Name>_TranslucentColor</Name><Type>Color</Type><Color><r>0.25</r><g>0.25</g><b>0.25</b></Color></Property>
+    <Property><Name>_TranslucentTilt</Name><Type>Float</Type><Float>0.0</Float></Property>
+    <Property><Name>_SpecularColor</Name><Type>Color</Type><Color><r>1</r><g>1</g><b>1</b></Color></Property>
+    <Property><Name>_Metalness</Name><Type>Float</Type><Float>0.1</Float></Property>
+<!--
+    Refraction ... 屈折率 1.0で屈折しない。シェーダー組込関数の都合上1.0未満がおすすめ
+-->
+    <Property><Name>_Refraction</Name><Type>Float</Type><Float>0.99</Float></Property>
+  </Properties>
+</Matparam>

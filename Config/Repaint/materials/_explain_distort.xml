@@ -8,6 +8,6 @@
 <!--
     Refraction ... 屈折率 1.0で屈折しない。シェーダー組込関数の都合上1.0未満がおすすめ
 -->
-    <Property><Name>_Refraction</Name><Type>Float</Type><Float>0.99</Float></Property>
+    <Property><Name>_Refraction</Name><Type>Float</Type><Float>0.999</Float></Property>
   </Properties>
 </Matparam>

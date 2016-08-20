@@ -4,5 +4,7 @@
     <Property><Name>_ToonRamp</Name><Type>Texture</Type><Texture>sample_toon00.png</Texture></Property>
     <Property><Name>_ShadowTex</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
     <Property><Name>_ShadowRateToon</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_ShadowTex</Name><Type>Texture</Type><Texture>sample_white.png</Texture></Property>
+    <Property><Name>_OutlineColor</Name><Type>Color</Type><Color><r>0</r><g>0</g><b>0</b><a>1</a></Color></Property>
   </Properties>
 </Matparam>
