@@ -1,4 +1,4 @@
-// Compiled shader for PC, Mac & Linux Standalone, uncompressed size: 13.2KB
+// Compiled shader for PC, Mac & Linux Standalone, uncompressed size: 13.3KB
 
 Shader "DISTORT" {
 Properties {
@@ -6,10 +6,10 @@ Properties {
 }
 SubShader { 
  LOD 200
- Tags { "QUEUE"="Geometry+100" "RenderType"="Transparent" }
+ Tags { "QUEUE"="Transparent+100" "RenderType"="Transparent" }
  GrabPass {
   "_GrabTexture"
-  Tags { "QUEUE"="Geometry+1" }
+  Tags { "QUEUE"="Transparent+1" }
  }
 
 
@@ -24,7 +24,10 @@ SubShader {
  //        d3d9 : 19 math, 1 texture
  //      opengl : 17 math, 1 texture
  Pass {
-  Tags { "QUEUE"="Geometry+100" "RenderType"="Transparent" }
+  Tags { "QUEUE"="Transparent+100" "RenderType"="Transparent" }
+  ZWrite Off
+  Blend SrcAlpha OneMinusSrcAlpha
+  AlphaTest Greater 0
 Program "vp" {
 SubProgram "opengl " {
 // Stats: 16 math
