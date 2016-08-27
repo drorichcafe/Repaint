@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bindings>
+    <Binding>
+      <Material>_explain_fur</Material>
+      <Keywords>
+        <Keyword>accHat004</Keyword>
+        <Keyword>accHat007</Keyword>
+        <Keyword>accHat013</Keyword>
+        <Keyword>accShippo</Keyword>
+        <Keyword>Bra003</Keyword>
+        <Keyword>Pants006</Keyword>
+      </Keywords>
+    </Binding>
+  </Bindings>
+</Bindset>

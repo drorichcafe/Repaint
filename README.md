@@ -23,6 +23,8 @@
 | KAYHAIR        | Kajiya-Kayモデルを使用したシェーダー                   | Config/Repaint/materials/_explain_kayhair.xml        |
 | DISTORT        | ステルスメイ彩                                         | Config/Repaint/materials/_explain_distort.xml        |
 | SLIME          | GGXSSSに屈折透過機能を付加したシェーダー               | Config/Repaint/materials/_explain_slime.xml          |
+| FUR            | GGXSSSにファーシェーディング機能を付加したシェーダー   | Config/Repaint/materials/_explain_fur.xml            |
+| FUR_LITE       | 軽量版FUR                                              | Config/Repaint/materials/_explain_fur.xml            |
 
 ## チュートリアル
 ### I. Flavorの追加
