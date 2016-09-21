@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Bindset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bindings>
+    <Binding>
+      <Material>anime01_skin</Material>
+      <Transparent>false</Transparent>
+      <Keywords>
+        <Keyword>skin</Keyword>
+        <Keyword>kupa</Keyword>
+      </Keywords>
+      <Ignores>
+        <Ignore>alpha</Ignore>
+        <Ignore>skinhi</Ignore>
+      </Ignores>
+    </Binding>
+  </Bindings>
+</Bindset>

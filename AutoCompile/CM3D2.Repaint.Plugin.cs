@@ -6,7 +6,7 @@ using UnityInjector.Attributes;
 
 namespace CM3D2.Repaint
 {
-	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.7")]
+	[PluginFilter("CM3D2x64"), PluginFilter("CM3D2x86"), PluginName("Repaint"), PluginVersion("0.0.0.9")]
 	public class Repaint : PluginBase
 	{
 		public class Binding
@@ -34,6 +34,7 @@ namespace CM3D2.Repaint
 					Color,
 					Texture,
 					Vector,
+					Int,
 				}
 
 				public string Name = string.Empty;
@@ -41,9 +42,13 @@ namespace CM3D2.Repaint
 				public float Float = 0.0f;
 				public Color Color = Color.white;
 				public string Texture = string.Empty;
+				public FilterMode TextureFilterMode = FilterMode.Bilinear;
+				public TextureWrapMode TextureWrapMode = TextureWrapMode.Repeat;
 				public Vector4 Vector = Vector4.zero;
+				public int Int = 0;
 			}
 
+			public int RenderQuque = -1;
 			public string Shader = string.Empty;
 			public List<Property> Properties = new List<Property>();
 		}
@@ -84,10 +89,10 @@ namespace CM3D2.Repaint
 		public void OnLevelWasLoaded(int lv)
 		{
 			m_folder = System.IO.Path.Combine(this.DataPath, "Repaint");
-			reload();
+			if (lv == 9) reload();
 		}
 
-		public void LateUpdate()
+		public void Update()
 		{
 			if (GameMain.Instance.CharacterMgr.IsBusy())
 			{
@@ -106,7 +111,7 @@ namespace CM3D2.Repaint
 					var materials = rd.materials;
 					for (int j = 0; j < materials.Length; ++j)
 					{
-						Console.WriteLine(materials[j].name);
+						Console.WriteLine(materials[j].name + " : " + materials[j].shader.name);
 					}
 				}
 			}
@@ -164,10 +169,13 @@ namespace CM3D2.Repaint
 						Shader.SetGlobalColor(p.Name, p.Color);
 						break;
 					case Matparam.Property.PropertyType.Texture:
-						Shader.SetGlobalTexture(p.Name, loadTexture(p.Texture));
+						Shader.SetGlobalTexture(p.Name, loadTexture(p.Texture, p.TextureFilterMode, p.TextureWrapMode));
 						break;
 					case Matparam.Property.PropertyType.Vector:
 						Shader.SetGlobalVector(p.Name, p.Vector);
+						break;
+					case Matparam.Property.PropertyType.Int:
+						Shader.SetGlobalInt(p.Name, p.Int);
 						break;
 					default:
 						break;
@@ -212,7 +220,7 @@ namespace CM3D2.Repaint
 							rd.sharedMaterials[j].shader = shader;
 						}
 					}
-
+					
 					foreach (var p in param.Properties)
 					{
 						switch (p.Type)
@@ -224,15 +232,20 @@ namespace CM3D2.Repaint
 								rd.sharedMaterials[j].SetColor(p.Name, p.Color);
 								break;
 							case Matparam.Property.PropertyType.Texture:
-								rd.sharedMaterials[j].SetTexture(p.Name, loadTexture(p.Texture));
+								rd.sharedMaterials[j].SetTexture(p.Name, loadTexture(p.Texture,  p.TextureFilterMode, p.TextureWrapMode));
 								break;
 							case Matparam.Property.PropertyType.Vector:
 								rd.sharedMaterials[j].SetVector(p.Name, p.Vector);
+								break;
+							case Matparam.Property.PropertyType.Int:
+								rd.sharedMaterials[j].SetInt(p.Name, p.Int);
 								break;
 							default:
 								break;
 						}
 					}
+
+					rd.sharedMaterials[j].renderQueue = param.RenderQuque;
 				}
 			}
 
@@ -285,6 +298,7 @@ namespace CM3D2.Repaint
 
 			GameMain.Instance.MainLight.SetIntensity(lit_int);
 			GameMain.Instance.MainLight.SetColor(lit_col);
+			
 			foreach (var kv in rds) kv.Key.enabled = kv.Value;
 		}
 
@@ -397,7 +411,7 @@ namespace CM3D2.Repaint
 			}
 		}
 
-		private Texture2D loadTexture(string name)
+		private Texture2D loadTexture(string name, FilterMode filter, TextureWrapMode wrap)
 		{
 			var dir = System.IO.Path.Combine(m_folder, "textures");
 			var path = System.IO.Path.Combine(dir, name);
@@ -406,6 +420,8 @@ namespace CM3D2.Repaint
 			{
 				var tex = new Texture2D(2, 2);
 				tex.LoadImage(System.IO.File.ReadAllBytes(path));
+				tex.filterMode = filter;
+				tex.wrapMode = wrap;
 				m_textures[path] = tex;
 			}
 
@@ -414,10 +430,9 @@ namespace CM3D2.Repaint
 
 		private T loadXml<T>(string path)
 		{
-			var serializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
 			using (var sr = new System.IO.StreamReader(path, new System.Text.UTF8Encoding(true)))
 			{
-				return (T)serializer.Deserialize(sr);
+				return (T)new System.Xml.Serialization.XmlSerializer(typeof(T)).Deserialize(sr);
 			}
 		}
 	}
